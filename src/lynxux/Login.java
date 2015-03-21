@@ -101,10 +101,10 @@ public class Login extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(58, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(49, 49, 49)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         pack();
@@ -117,6 +117,7 @@ public class Login extends javax.swing.JFrame {
         String level = null;
         String name = null;
         try{
+            
             loggedInUser = txtUsername.getText();
             pst = conn.prepareStatement(sql);
             pst.setString(1,txtUsername.getText());
@@ -126,15 +127,13 @@ public class Login extends javax.swing.JFrame {
             level = rst.getString("Level");
             name = rst.getString("Name");
             JOptionPane.showMessageDialog(rootPane, level);
-            if(level.equals("Admin")){
-                
+            if(level.equals("Admin")){ 
                 JOptionPane.showMessageDialog(null,"Welcome Admin " + name);
                 Admin w = new Admin();
                 w.setVisible(true);
                 super.dispose();
             }
             else{
-                
                 JOptionPane.showMessageDialog(null,"Welcome Staff member " + name);
                 Staff w = new Staff();
                 w.setVisible(true);

@@ -46,9 +46,9 @@ public class Admin extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(517, Short.MAX_VALUE)
+                .addContainerGap(514, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(21, 21, 21))
+                .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
