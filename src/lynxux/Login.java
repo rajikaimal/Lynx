@@ -23,6 +23,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        this.setResizable(false);//cannot resize
         this.setLocationRelativeTo(null); //center the JFrame
         
     }
@@ -46,10 +47,13 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("URW Gothic L", 1, 15)); // NOI18N
         jLabel1.setText("Employee ID");
 
+        jLabel2.setFont(new java.awt.Font("URW Gothic L", 1, 15)); // NOI18N
         jLabel2.setText("Password");
 
+        btnLogin.setFont(new java.awt.Font("Waree", 1, 15)); // NOI18N
         btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lynxux/login.png"))); // NOI18N
         btnLogin.setText("Login");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
