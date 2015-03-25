@@ -25,12 +25,17 @@ public class MyiReportViewer2  extends JFrame{
         super("View Report");
         try{
             conn = MySqlConnect.ConnectDB();
-            JasperDesign jasperDesign = JasperManager.loadXmlDesign(fileName);
-            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-            JasperPrint print = JasperFillManager.fillReport(jasperReport, parameter, conn);
-            Container c=getContentPane();
-            JRViewer viewer=new JRViewer(print);
-            c.add(viewer);
+//            JasperDesign jasperDesign = JasperManager.loadXmlDesign(fileName);
+//            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+//            JasperPrint print = JasperFillManager.fillReport(jasperReport, parameter, conn);
+//            Container c=getContentPane();
+//            JRViewer viewer=new JRViewer(print);
+//            c.add(viewer);
+//            JasperPrint print = JasperFillManager.fillReport(fileName, parameter, conn);
+//            JRViewer viewer=new JRViewer(print);
+//            Container c=getContentPane();
+//            c.add(viewer);
+            
         }
         catch(Exception e){
             

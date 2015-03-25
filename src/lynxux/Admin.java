@@ -21,7 +21,8 @@ public class Admin extends javax.swing.JFrame {
      */
     public Admin() {
         initComponents();
-        
+        this.setResizable(false);//cannot resize
+        this.setLocationRelativeTo(null); //centers the JFrame
     }
 
     /**
@@ -675,13 +676,6 @@ public class Admin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here: super.dispose();
-        super.dispose();
-        Login lg = new Login();
-        lg.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void esectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_esectionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_esectionActionPerformed
@@ -742,13 +736,13 @@ public class Admin extends javax.swing.JFrame {
             //adddone a1 = new adddone();
             //a1.setVisible(true);
             //this.dispose();
-            JOptionPane.showMessageDialog(null, "Data added!");
+            JOptionPane.showMessageDialog(null, "Employee Data added!");
 
         }
         catch (Exception e){
             //addnotdone an1 = new addnotdone();
             //an1.setVisible(true);
-            JOptionPane.showMessageDialog(null, "Data not added due to some reason!");
+            JOptionPane.showMessageDialog(null, "Data not added due to some reason ! Try again");
             //an1.dispose();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -769,6 +763,7 @@ public class Admin extends javax.swing.JFrame {
             try{
                 pst = conn.prepareStatement(query);
                 pst.execute();
+                JOptionPane.showConfirmDialog(null,"Employee " + what + " deleted !");
             }
             catch (Exception e){
 
@@ -835,7 +830,7 @@ public class Admin extends javax.swing.JFrame {
                 pst.execute();
                 //adddone a1 = new adddone();
                 //a1.setVisible(true);
-                JOptionPane.showMessageDialog(null, "data updated");
+                JOptionPane.showMessageDialog(null, "Data updated !");
                 //this.dispose();
             }
             catch (Exception e){
@@ -855,6 +850,13 @@ public class Admin extends javax.swing.JFrame {
     private void uephoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uephoneActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_uephoneActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here: super.dispose();
+        super.dispose();
+        Login lg = new Login();
+        lg.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

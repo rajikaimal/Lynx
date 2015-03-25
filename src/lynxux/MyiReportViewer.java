@@ -34,7 +34,7 @@ public class MyiReportViewer extends JFrame{
             
         }
         setBounds(10,10,600,500);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
     }
     public static void main(String[] args) {
         MyiReportViewer viewer=new MyiReportViewer("/home/rajika/NetBeansProjects/LynxUX/src/lynxux/Lynx/Lynx.jasper");
