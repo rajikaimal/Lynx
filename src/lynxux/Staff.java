@@ -30,6 +30,7 @@ public class Staff extends javax.swing.JFrame {
         loggedInAs.setText("You're logged in as "+ Login.loggedInUser + "(" + getEmpName() + ")");
         addToTable(); //cancel leaves
         addToTable2();
+        addToTable3(); //update leaves
         pendingAn(); //pending annual leaves
         pendingCas(); //pending casual leaves
         checkAnnLeaves(); //available annual leaves
@@ -124,7 +125,7 @@ public class Staff extends javax.swing.JFrame {
             pst.setString(1, Login.loggedInUser);
             rst = pst.executeQuery();
             rst.next();
-            if(Integer.parseInt(rst.getString("count"))>5){
+            if(Integer.parseInt(rst.getString("count"))>=5){
                 reason.setVisible(true);
             }
             else{
@@ -143,7 +144,7 @@ public class Staff extends javax.swing.JFrame {
             pst.setString(1, Login.loggedInUser);
             rst = pst.executeQuery();
             rst.next();
-            if(Integer.parseInt(rst.getString("count"))>20){
+            if(Integer.parseInt(rst.getString("count"))>=20){
                 reason.setVisible(true);
             }
             else{
@@ -169,13 +170,14 @@ public class Staff extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
         logout = new javax.swing.JButton();
         JFrame = new javax.swing.JTabbedPane();
         requestLeaves = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         Reason = new javax.swing.JLabel();
-        date = new javax.swing.JTextField();
+        dateX = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         reason = new javax.swing.JTextArea();
         submit = new javax.swing.JButton();
@@ -200,11 +202,25 @@ public class Staff extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         casLeaves = new javax.swing.JLabel();
         annLeaves = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        updateReqTable = new javax.swing.JTable();
         loggedInAs = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         report1 = new javax.swing.JButton();
         repPara = new javax.swing.JTextField();
         genRep = new javax.swing.JButton();
+
+        javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
+        jLayeredPane1.setLayout(jLayeredPane1Layout);
+        jLayeredPane1Layout.setHorizontalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jLayeredPane1Layout.setVerticalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -231,9 +247,9 @@ public class Staff extends javax.swing.JFrame {
         Reason.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
         Reason.setText("Reason");
 
-        date.addActionListener(new java.awt.event.ActionListener() {
+        dateX.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dateActionPerformed(evt);
+                dateXActionPerformed(evt);
             }
         });
 
@@ -333,7 +349,7 @@ public class Staff extends javax.swing.JFrame {
                 .addGap(91, 91, 91)
                 .addGroup(requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(requestLeavesLayout.createSequentialGroup()
-                        .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(dateX, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(dateFor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -343,7 +359,7 @@ public class Staff extends javax.swing.JFrame {
                             .addComponent(jButton3))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(160, Short.MAX_VALUE))
+                .addContainerGap(218, Short.MAX_VALUE))
         );
         requestLeavesLayout.setVerticalGroup(
             requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -358,7 +374,7 @@ public class Staff extends javax.swing.JFrame {
                         .addGroup(requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(dateX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(dateFor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -419,14 +435,14 @@ public class Staff extends javax.swing.JFrame {
             .addGroup(cancelLeavesLayout.createSequentialGroup()
                 .addGap(124, 124, 124)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addContainerGap(187, Short.MAX_VALUE))
         );
         cancelLeavesLayout.setVerticalGroup(
             cancelLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cancelLeavesLayout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
 
         JFrame.addTab("Cancel Leave", new javax.swing.ImageIcon(getClass().getResource("/lynxux/delete-icon.png")), cancelLeaves); // NOI18N
@@ -452,7 +468,7 @@ public class Staff extends javax.swing.JFrame {
                 .addGroup(pendingLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 191, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
                 .addGroup(pendingLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pendingCas, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pendingAnn, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -469,7 +485,7 @@ public class Staff extends javax.swing.JFrame {
                 .addGroup(pendingLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(pendingAnn, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(248, Short.MAX_VALUE))
+                .addContainerGap(264, Short.MAX_VALUE))
         );
 
         JFrame.addTab("Pending", new javax.swing.ImageIcon(getClass().getResource("/lynxux/hp-pending-icon.png")), pendingLeaves); // NOI18N
@@ -519,14 +535,14 @@ public class Staff extends javax.swing.JFrame {
             .addGroup(notificationsLayout.createSequentialGroup()
                 .addGap(122, 122, 122)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addContainerGap(189, Short.MAX_VALUE))
         );
         notificationsLayout.setVerticalGroup(
             notificationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(notificationsLayout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(107, Short.MAX_VALUE))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
 
         JFrame.addTab("Notifications", new javax.swing.ImageIcon(getClass().getResource("/lynxux/Apps-Notifications-icon.png")), notifications); // NOI18N
@@ -553,7 +569,7 @@ public class Staff extends javax.swing.JFrame {
                 .addGroup(availabilityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 219, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 277, Short.MAX_VALUE)
                 .addGroup(availabilityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(casLeaves, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
                     .addComponent(annLeaves, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -570,10 +586,68 @@ public class Staff extends javax.swing.JFrame {
                 .addGroup(availabilityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(annLeaves, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(267, Short.MAX_VALUE))
+                .addContainerGap(283, Short.MAX_VALUE))
         );
 
         JFrame.addTab("Availability", new javax.swing.ImageIcon(getClass().getResource("/lynxux/Actions-go-next-icon.png")), availability); // NOI18N
+
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        updateReqTable.setBackground(new java.awt.Color(137, 253, 125));
+        updateReqTable.setFont(new java.awt.Font("URW Gothic L", 1, 18)); // NOI18N
+        updateReqTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Date", "Type", "Reason"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        updateReqTable.setCellSelectionEnabled(true);
+        updateReqTable.setEditingRow(1);
+        updateReqTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                updateReqTableMouseReleased(evt);
+            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                updateReqTableMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(updateReqTable);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(124, 124, 124)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(185, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(124, Short.MAX_VALUE))
+        );
+
+        JFrame.addTab("Update Request", jPanel1);
 
         loggedInAs.setFont(new java.awt.Font("URW Gothic L", 1, 15)); // NOI18N
 
@@ -599,17 +673,18 @@ public class Staff extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(63, 63, 63)
-                        .addComponent(JFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 713, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(JFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 771, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(481, 481, 481)
-                        .addComponent(loggedInAs, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addContainerGap()
+                        .addComponent(loggedInAs, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 58, Short.MAX_VALUE)
+                        .addGap(0, 71, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(genRep, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -671,7 +746,7 @@ public class Staff extends javax.swing.JFrame {
        //     String dateme = datev.toString();
             pst = conn.prepareStatement(sql);
             pst.setString(1,Login.loggedInUser);
-            pst.setString(2,dateFor.toString());
+            pst.setString(2,dateX.getText());
             pst.setString(3,type);
             pst.setString(4,reason.getText());
             pst.execute();
@@ -689,10 +764,6 @@ public class Staff extends javax.swing.JFrame {
         // TODO add your handling code here:
         
     }//GEN-LAST:event_jTable1MouseClicked
-
-    private void dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dateActionPerformed
 
     private void radiocasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radiocasMouseClicked
         // TODO add your handling code here:
@@ -739,8 +810,8 @@ public class Staff extends javax.swing.JFrame {
         // TODO add your handling code here:
 //        MyiReportViewer viewer=new MyiReportViewer("/home/rajika/NetBeansProjects/LynxUX/src/lynxux/Lynx/Lynx.jasper");
 //        viewer.setVisible(true);
-        Ireport_staff ir = new Ireport_staff();
-        Staff st = new Staff();
+     //   Ireport_staff ir = new Ireport_staff();
+       // Staff st = new Staff();
     }//GEN-LAST:event_report1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -773,8 +844,20 @@ public class Staff extends javax.swing.JFrame {
     private void genRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genRepActionPerformed
         // TODO add your handling code here:
         String para = repPara.getText();
-        Ireport_staff2 rp2 = new Ireport_staff2(para);
+        Ireport rp2 = new Ireport(para);
     }//GEN-LAST:event_genRepActionPerformed
+
+    private void dateXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateXActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dateXActionPerformed
+
+    private void updateReqTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateReqTableMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_updateReqTableMouseReleased
+
+    private void updateReqTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateReqTableMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_updateReqTableMouseClicked
     public void addToTable(){
         conn = MySqlConnect.ConnectDB();
         String sql = "Select * from RequestedLeaves where EmpId=?";
@@ -819,6 +902,32 @@ public class Staff extends javax.swing.JFrame {
                 type = rst.getString("Type");
                 DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
                 model.addRow(new Object[]{date,status,type});
+                
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e);
+        }
+    }
+    public void addToTable3(){
+        conn = MySqlConnect.ConnectDB();
+        String sql = "Select * from RequestedLeaves where EmpId=?";
+        String date;
+        String type;
+        String reason;
+        try{ 
+            
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, Login.loggedInUser);
+            rst = pst.executeQuery();
+            
+            while(rst.next()){
+                date = rst.getString("Date");
+                type = rst.getString("Type");
+                reason = rst.getString("Reason");
+                
+                DefaultTableModel model = (DefaultTableModel) updateReqTable.getModel();
+                model.addRow(new Object[]{date,type,reason});
                 
             }
         }
@@ -898,9 +1007,9 @@ public class Staff extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JPanel cancelLeaves;
     private javax.swing.JLabel casLeaves;
-    private javax.swing.JTextField date;
     private net.sourceforge.jdatepicker.impl.DateComponentFormatter dateComponentFormatter1;
     private com.toedter.calendar.JDateChooser dateFor;
+    private javax.swing.JTextField dateX;
     private javax.swing.JButton genRep;
     private javax.swing.JButton jButton3;
     private net.sourceforge.jdatepicker.util.JDatePickerUtil jDatePickerUtil1;
@@ -911,9 +1020,12 @@ public class Staff extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable3;
@@ -931,5 +1043,6 @@ public class Staff extends javax.swing.JFrame {
     private javax.swing.JPanel requestLeaves;
     private net.sourceforge.jdatepicker.impl.SqlDateModel sqlDateModel1;
     private javax.swing.JButton submit;
+    private javax.swing.JTable updateReqTable;
     // End of variables declaration//GEN-END:variables
 }

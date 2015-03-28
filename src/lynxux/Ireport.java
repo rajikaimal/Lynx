@@ -20,11 +20,11 @@ import net.sf.jasperreports.engine.JRDataSource;
  *
  * @author rajika
  */
-public class Ireport_staff2 {
+public class Ireport {
     Connection conn;
     PreparedStatement pst;
     ResultSet rst;
-    public Ireport_staff2(String status) {
+    public Ireport(String status) {
 		build(status);
     }
     private void build(String status) {
