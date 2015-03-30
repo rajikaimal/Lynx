@@ -18,7 +18,7 @@ public class newinsert extends javax.swing.JInternalFrame {
 
     Connection conn = null;
     PreparedStatement pst = null;
-    
+    PreparedStatement pst2 = null;
     public newinsert() {
         initComponents();
         
@@ -218,11 +218,15 @@ public class newinsert extends javax.swing.JInternalFrame {
         String position = eposition.getSelectedItem().toString();
         String level = elevel.getSelectedItem().toString();
         String salary = esalary.getText();
-
+        String query = "INSERT INTO Employees ( EmpId, Name, Address, Phone, Section, Position, Email, Salary, Level, Password) values ('"+empno+"', '"+name+"', '"+address+"','"+phone+"', '"+section+"', '"+position+"', '"+email+"', '"+salary+"', '"+level+"', '"+pw+"')";
+        String query2 = "INSERT INTO Leaves (EmpId) values('"+empno+"')";
         try{
-            String query = "INSERT INTO employees ( EmpId, Name, Address, Phone, Section, Position, Email, Salary, Level, Password) values ('"+empno+"', '"+name+"', '"+address+"','"+phone+"', '"+section+"', '"+position+"', '"+email+"', '"+salary+"', '"+level+"', '"+pw+"')";
+            
             pst = conn.prepareStatement(query);
             pst.execute();
+            JOptionPane.showMessageDialog(null, "Affff");
+            pst2 = conn.prepareStatement(query2);
+            pst2.execute();
             // int x = JOptionPane.showConfirmDialog(null, "Insert data?");
             //adddone a1 = new adddone();
             //a1.setVisible(true);

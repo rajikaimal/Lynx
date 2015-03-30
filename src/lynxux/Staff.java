@@ -27,6 +27,7 @@ public class Staff extends javax.swing.JFrame {
      */
     public Staff() {
         initComponents();
+        buttonGroup(); //group radio buttons
         loggedInAs.setText("You're logged in as "+ Login.loggedInUser + "(" + getEmpName() + ")");
         addToTable(); //cancel leaves
         addToTable2();
@@ -37,6 +38,11 @@ public class Staff extends javax.swing.JFrame {
         checkCasLeaves(); //available casual leaves
         this.setResizable(false);
         this.setLocationRelativeTo(null); //centers the JFrame
+    }
+    private void buttonGroup(){
+        ButtonGroup bg1 = new ButtonGroup();
+        bg1.add(radioann);
+        bg1.add(radiocas);
     }
     private String getEmpName(){
         String name = null;
@@ -164,9 +170,6 @@ public class Staff extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        dateComponentFormatter1 = new net.sourceforge.jdatepicker.impl.DateComponentFormatter();
-        sqlDateModel1 = new net.sourceforge.jdatepicker.impl.SqlDateModel();
-        jDatePickerUtil1 = new net.sourceforge.jdatepicker.util.JDatePickerUtil();
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
@@ -177,15 +180,13 @@ public class Staff extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         Reason = new javax.swing.JLabel();
-        dateX = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         reason = new javax.swing.JTextArea();
         submit = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         radiocas = new javax.swing.JRadioButton();
         radioann = new javax.swing.JRadioButton();
-        dateFor = new com.toedter.calendar.JDateChooser();
+        jDateText = new com.toedter.calendar.JDateChooser();
         cancelLeaves = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -205,9 +206,16 @@ public class Staff extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         updateReqTable = new javax.swing.JTable();
+        Datereq = new javax.swing.JLabel();
+        Typereq = new javax.swing.JLabel();
+        Reasonreq = new javax.swing.JLabel();
+        dateload = new javax.swing.JTextField();
+        typeload = new javax.swing.JTextField();
+        reasonload = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         loggedInAs = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        report1 = new javax.swing.JButton();
+        fromEmployee = new javax.swing.JButton();
         repPara = new javax.swing.JTextField();
         genRep = new javax.swing.JButton();
 
@@ -233,6 +241,7 @@ public class Staff extends javax.swing.JFrame {
         });
 
         JFrame.setBorder(null);
+        JFrame.setFont(new java.awt.Font("URW Gothic L", 1, 15)); // NOI18N
 
         requestLeaves.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         requestLeaves.setMaximumSize(new java.awt.Dimension(20000, 32767));
@@ -247,12 +256,6 @@ public class Staff extends javax.swing.JFrame {
         Reason.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
         Reason.setText("Reason");
 
-        dateX.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dateXActionPerformed(evt);
-            }
-        });
-
         reason.setColumns(20);
         reason.setRows(5);
         jScrollPane1.setViewportView(reason);
@@ -263,13 +266,6 @@ public class Staff extends javax.swing.JFrame {
         submit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 submitActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("jButton3");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
             }
         });
 
@@ -298,6 +294,22 @@ public class Staff extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(radiocas)
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addGap(0, 9, Short.MAX_VALUE)
+                .addComponent(radiocas))
+        );
+
         radioann.setText("Annual");
         radioann.setFocusable(false);
         radioann.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -313,80 +325,60 @@ public class Staff extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(radiocas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-                .addComponent(radioann)
-                .addGap(20, 20, 20))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(radioann)
-                    .addComponent(radiocas))
-                .addContainerGap())
-        );
-
-        dateFor.setDateFormatString(" yyyy-MM-dd");
+        jDateText.setDateFormatString("yyyy-MM-dd");
 
         javax.swing.GroupLayout requestLeavesLayout = new javax.swing.GroupLayout(requestLeaves);
         requestLeaves.setLayout(requestLeavesLayout);
         requestLeavesLayout.setHorizontalGroup(
             requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(requestLeavesLayout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addGroup(requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3)
-                    .addComponent(Reason, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(91, 91, 91)
                 .addGroup(requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(requestLeavesLayout.createSequentialGroup()
-                        .addComponent(dateX, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dateFor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(requestLeavesLayout.createSequentialGroup()
-                            .addComponent(submit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(33, 33, 33)
-                            .addComponent(jButton3))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(218, Short.MAX_VALUE))
+                        .addGap(176, 176, 176)
+                        .addGroup(requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(Reason)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(requestLeavesLayout.createSequentialGroup()
+                                .addGap(159, 159, 159)
+                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(51, 51, 51)
+                                .addComponent(radioann))
+                            .addGroup(requestLeavesLayout.createSequentialGroup()
+                                .addGap(170, 170, 170)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(requestLeavesLayout.createSequentialGroup()
+                                .addGap(170, 170, 170)
+                                .addComponent(jDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(requestLeavesLayout.createSequentialGroup()
+                        .addGap(340, 340, 340)
+                        .addComponent(submit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(193, Short.MAX_VALUE))
         );
         requestLeavesLayout.setVerticalGroup(
             requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(requestLeavesLayout.createSequentialGroup()
+                .addGap(55, 55, 55)
                 .addGroup(requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, requestLeavesLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel3)
-                        .addGap(48, 48, 48))
                     .addGroup(requestLeavesLayout.createSequentialGroup()
-                        .addGap(34, 34, 34)
+                        .addComponent(jDateText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                         .addGroup(requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(dateX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(dateFor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
+                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(radioann))
+                        .addGap(34, 34, 34))
+                    .addGroup(requestLeavesLayout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Reason)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addGroup(requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(submit)
-                    .addComponent(jButton3))
-                .addContainerGap(120, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Reason))
+                .addGap(56, 56, 56)
+                .addComponent(submit)
+                .addGap(45, 45, 45))
         );
 
         JFrame.addTab("Request Leave", new javax.swing.ImageIcon(getClass().getResource("/lynxux/Office-Customer-Male-Light-icon.png")), requestLeaves); // NOI18N
@@ -435,7 +427,7 @@ public class Staff extends javax.swing.JFrame {
             .addGroup(cancelLeavesLayout.createSequentialGroup()
                 .addGap(124, 124, 124)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(187, Short.MAX_VALUE))
+                .addContainerGap(301, Short.MAX_VALUE))
         );
         cancelLeavesLayout.setVerticalGroup(
             cancelLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -468,7 +460,7 @@ public class Staff extends javax.swing.JFrame {
                 .addGroup(pendingLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 363, Short.MAX_VALUE)
                 .addGroup(pendingLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pendingCas, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pendingAnn, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -535,7 +527,7 @@ public class Staff extends javax.swing.JFrame {
             .addGroup(notificationsLayout.createSequentialGroup()
                 .addGap(122, 122, 122)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(189, Short.MAX_VALUE))
+                .addContainerGap(303, Short.MAX_VALUE))
         );
         notificationsLayout.setVerticalGroup(
             notificationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -569,7 +561,7 @@ public class Staff extends javax.swing.JFrame {
                 .addGroup(availabilityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 277, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 391, Short.MAX_VALUE)
                 .addGroup(availabilityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(casLeaves, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
                     .addComponent(annLeaves, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -630,31 +622,84 @@ public class Staff extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(updateReqTable);
 
+        Datereq.setText("Date");
+
+        Typereq.setText("Type");
+
+        Reasonreq.setText("Reason");
+
+        dateload.setEditable(false);
+        dateload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dateloadActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Update");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(124, 124, 124)
+                .addGap(59, 59, 59)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(185, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Datereq)
+                            .addComponent(Typereq)
+                            .addComponent(Reasonreq))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(dateload, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                            .addComponent(typeload)
+                            .addComponent(reasonload))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(197, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Datereq)
+                            .addComponent(dateload, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(17, 17, 17)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Typereq)
+                            .addComponent(typeload, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Reasonreq)
+                            .addComponent(reasonload, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(124, Short.MAX_VALUE))
         );
 
-        JFrame.addTab("Update Request", jPanel1);
+        JFrame.addTab("Update Request", new javax.swing.ImageIcon(getClass().getResource("/lynxux/edit-validated-icon.png")), jPanel1); // NOI18N
 
         loggedInAs.setFont(new java.awt.Font("URW Gothic L", 1, 15)); // NOI18N
 
-        report1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lynxux/Reports-icon.png"))); // NOI18N
-        report1.addActionListener(new java.awt.event.ActionListener() {
+        fromEmployee.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lynxux/Reports-icon.png"))); // NOI18N
+        fromEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                report1ActionPerformed(evt);
+                fromEmployeeActionPerformed(evt);
             }
         });
 
@@ -672,23 +717,22 @@ public class Staff extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(531, 531, 531)
+                        .addComponent(loggedInAs, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(63, 63, 63)
-                        .addComponent(JFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 771, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(loggedInAs, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)))
+                        .addComponent(JFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 885, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 71, Short.MAX_VALUE)
+                        .addGap(0, 15, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(genRep, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(report1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(fromEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(repPara, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(27, 27, 27))))
@@ -706,7 +750,7 @@ public class Staff extends javax.swing.JFrame {
                         .addComponent(JFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(55, 55, 55)
-                        .addComponent(report1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(fromEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel12)
                         .addGap(62, 62, 62)
@@ -740,16 +784,33 @@ public class Staff extends javax.swing.JFrame {
         // TODO add your handling code here:
         conn = MySqlConnect.ConnectDB();
         String sql = "Insert into RequestedLeaves (EmpId,Date,Type,Reason)"+"values(?,?,?,?)";
+        String sql2 = "Insert into DefaultLeaves(EmpId,Date,Type) values(?,?,?)";
+        String sql3 = "Insert into AdditionalLeaves(EmpId,Date,Type,Reason) values(?,?,?,?)";
         try{
-            
-       //     String datev = new SimpleDateFormat("yyyy-MM-dd").format(dateX.getText());
-       //     String dateme = datev.toString();
             pst = conn.prepareStatement(sql);
             pst.setString(1,Login.loggedInUser);
-            pst.setString(2,dateX.getText());
+            pst.setString(2,((JTextField)jDateText.getDateEditor().getUiComponent()).getText());
             pst.setString(3,type);
             pst.setString(4,reason.getText());
             pst.execute();
+            if(reason.getText().equals("")){
+                pst = conn.prepareStatement(sql2);
+                pst.setString(1,Login.loggedInUser);
+                pst.setString(2,((JTextField)jDateText.getDateEditor().getUiComponent()).getText());
+                pst.setString(3,type);
+
+                pst.execute();
+            }
+            else{
+                pst = conn.prepareStatement(sql3);
+                pst.setString(1,Login.loggedInUser);
+                pst.setString(2,((JTextField)jDateText.getDateEditor().getUiComponent()).getText());
+                pst.setString(3,type);
+                pst.setString(4, reason.getText());
+                pst.execute();
+            }
+            
+            
             JOptionPane.showMessageDialog(null, "Your submission is successfull");
             super.dispose();
             Staff w = new Staff();
@@ -806,22 +867,14 @@ public class Staff extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jTable1MouseReleased
 
-    private void report1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_report1ActionPerformed
+    private void fromEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromEmployeeActionPerformed
         // TODO add your handling code here:
-//        MyiReportViewer viewer=new MyiReportViewer("/home/rajika/NetBeansProjects/LynxUX/src/lynxux/Lynx/Lynx.jasper");
+        String button = "fromEmployee";
+          Ireport_staff rp=new Ireport_staff("Select * from DefaultLeaves Leaves",button);
 //        viewer.setVisible(true);
      //   Ireport_staff ir = new Ireport_staff();
        // Staff st = new Staff();
-    }//GEN-LAST:event_report1ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        //SimpleDateFormat formatter5=new SimpleDateFormat("yyyy-MM-dd");
-     //   String formats1 = formatter5.format(dateX.getText());
-       // String datev = (Date)new SimpleDateFormat("yyyy-MM-dd").format(dateX.getText());
-        JOptionPane.showMessageDialog(null, dateFor);
-       
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_fromEmployeeActionPerformed
 
     private void jTable3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseReleased
         // TODO add your handling code here:
@@ -847,17 +900,53 @@ public class Staff extends javax.swing.JFrame {
         Ireport rp2 = new Ireport(para);
     }//GEN-LAST:event_genRepActionPerformed
 
-    private void dateXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateXActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dateXActionPerformed
-
     private void updateReqTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateReqTableMouseReleased
         // TODO add your handling code here:
+        
+            int row = updateReqTable.getSelectedRow();
+            
+            String dateReq = updateReqTable.getModel().getValueAt(row,0).toString();
+            String TypeReq = updateReqTable.getModel().getValueAt(row,1).toString();
+            String ReasonReq = updateReqTable.getModel().getValueAt(row,2).toString();
+            dateload.setText(dateReq);
+            typeload.setText(TypeReq);
+            reasonload.setText(ReasonReq);
+
     }//GEN-LAST:event_updateReqTableMouseReleased
 
     private void updateReqTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateReqTableMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_updateReqTableMouseClicked
+
+    private void dateloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateloadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dateloadActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String date = dateload.getText();
+        String reason = reasonload.getText();
+        String type = typeload.getText();
+        try{
+                conn = MySqlConnect.ConnectDB();
+                String sql = "Update RequestedLeaves SET Reason=?,Type=? where EmpId=? and Date=?";
+                pst = conn.prepareStatement(sql);
+                pst.setString(1,reason);
+                pst.setString(2,type);
+                pst.setString(3,Login.loggedInUser);
+                pst.setString(4,date);
+                pst.execute();
+                JOptionPane.showMessageDialog(null,"Request Updated");
+                this.dispose();
+                Staff st = new Staff();
+                st.setVisible(true);
+            }
+        catch(Exception e){
+                JOptionPane.showMessageDialog(null,e);
+                
+            }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
     public void addToTable(){
         conn = MySqlConnect.ConnectDB();
         String sql = "Select * from RequestedLeaves where EmpId=?";
@@ -886,7 +975,7 @@ public class Staff extends javax.swing.JFrame {
     }
     public void addToTable2(){
         conn = MySqlConnect.ConnectDB();
-        String sql = "Select Date,Status,Type from DefaultLeaves where EmpId=?";
+        String sql = "Select Date,Status,Type from DefaultLeaves where EmpId=? UNION Select Date,Status,Type from AdditionalLeaves where EmpId=?";
         String date;
         String status;
         String type;
@@ -894,6 +983,7 @@ public class Staff extends javax.swing.JFrame {
             
             pst = conn.prepareStatement(sql);
             pst.setString(1, Login.loggedInUser);
+            pst.setString(2, Login.loggedInUser);
             rst = pst.executeQuery();
             rst.next();
             while(rst.next()){
@@ -911,7 +1001,7 @@ public class Staff extends javax.swing.JFrame {
     }
     public void addToTable3(){
         conn = MySqlConnect.ConnectDB();
-        String sql = "Select * from RequestedLeaves where EmpId=?";
+        String sql = "Select * from RequestedLeaves where EmpId=? and Reason !=''";
         String date;
         String type;
         String reason;
@@ -998,8 +1088,11 @@ public class Staff extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Datereq;
     private javax.swing.JTabbedPane JFrame;
     private javax.swing.JLabel Reason;
+    private javax.swing.JLabel Reasonreq;
+    private javax.swing.JLabel Typereq;
     private javax.swing.JLabel annLeaves;
     private javax.swing.JPanel availability;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -1007,12 +1100,11 @@ public class Staff extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JPanel cancelLeaves;
     private javax.swing.JLabel casLeaves;
-    private net.sourceforge.jdatepicker.impl.DateComponentFormatter dateComponentFormatter1;
-    private com.toedter.calendar.JDateChooser dateFor;
-    private javax.swing.JTextField dateX;
+    private javax.swing.JTextField dateload;
+    private javax.swing.JButton fromEmployee;
     private javax.swing.JButton genRep;
-    private javax.swing.JButton jButton3;
-    private net.sourceforge.jdatepicker.util.JDatePickerUtil jDatePickerUtil1;
+    private javax.swing.JButton jButton1;
+    private com.toedter.calendar.JDateChooser jDateText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
@@ -1038,11 +1130,11 @@ public class Staff extends javax.swing.JFrame {
     private javax.swing.JRadioButton radioann;
     private javax.swing.JRadioButton radiocas;
     private javax.swing.JTextArea reason;
+    private javax.swing.JTextField reasonload;
     private javax.swing.JTextField repPara;
-    private javax.swing.JButton report1;
     private javax.swing.JPanel requestLeaves;
-    private net.sourceforge.jdatepicker.impl.SqlDateModel sqlDateModel1;
     private javax.swing.JButton submit;
+    private javax.swing.JTextField typeload;
     private javax.swing.JTable updateReqTable;
     // End of variables declaration//GEN-END:variables
 }
