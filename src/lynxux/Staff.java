@@ -12,6 +12,7 @@ package lynxux;
 import java.awt.HeadlessException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Stack;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -29,9 +30,9 @@ public class Staff extends javax.swing.JFrame {
         initComponents();
         buttonGroup(); //group radio buttons
         loggedInAs.setText("You're logged in as "+ Login.loggedInUser + "(" + getEmpName() + ")");
-        addToTable(); //cancel leaves
-        addToTable2();
-        addToTable3(); //update leaves
+        cancelleave(); //cancel leaves
+        notifications(); //notifications
+        updateleaves(); //update leaves
         pendingAn(); //pending annual leaves
         pendingCas(); //pending casual leaves
         checkAnnLeaves(); //available annual leaves
@@ -189,7 +190,7 @@ public class Staff extends javax.swing.JFrame {
         jDateText = new com.toedter.calendar.JDateChooser();
         cancelLeaves = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        cancelLeave = new javax.swing.JTable();
         pendingLeaves = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -197,7 +198,7 @@ public class Staff extends javax.swing.JFrame {
         pendingAnn = new javax.swing.JLabel();
         notifications = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        notificationsTable = new javax.swing.JTable();
         availability = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -216,8 +217,8 @@ public class Staff extends javax.swing.JFrame {
         loggedInAs = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         fromEmployee = new javax.swing.JButton();
-        repPara = new javax.swing.JTextField();
         genRep = new javax.swing.JButton();
+        repPara = new javax.swing.JComboBox();
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
@@ -232,6 +233,7 @@ public class Staff extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        logout.setFont(new java.awt.Font("URW Gothic L", 1, 15)); // NOI18N
         logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lynxux/logout-icon.png"))); // NOI18N
         logout.setText("Logout");
         logout.addActionListener(new java.awt.event.ActionListener() {
@@ -354,7 +356,7 @@ public class Staff extends javax.swing.JFrame {
                     .addGroup(requestLeavesLayout.createSequentialGroup()
                         .addGap(340, 340, 340)
                         .addComponent(submit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(193, Short.MAX_VALUE))
+                .addContainerGap(209, Short.MAX_VALUE))
         );
         requestLeavesLayout.setVerticalGroup(
             requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -363,7 +365,7 @@ public class Staff extends javax.swing.JFrame {
                 .addGroup(requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(requestLeavesLayout.createSequentialGroup()
                         .addComponent(jDateText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                         .addGroup(requestLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(radioann))
@@ -385,9 +387,9 @@ public class Staff extends javax.swing.JFrame {
 
         cancelLeaves.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTable1.setBackground(new java.awt.Color(250, 185, 170));
-        jTable1.setFont(new java.awt.Font("URW Gothic L", 1, 18)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        cancelLeave.setBackground(new java.awt.Color(250, 185, 170));
+        cancelLeave.setFont(new java.awt.Font("URW Gothic L", 1, 18)); // NOI18N
+        cancelLeave.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -410,15 +412,15 @@ public class Staff extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        cancelLeave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jTable1MouseReleased(evt);
+                cancelLeaveMouseReleased(evt);
             }
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+                cancelLeaveMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(cancelLeave);
 
         javax.swing.GroupLayout cancelLeavesLayout = new javax.swing.GroupLayout(cancelLeaves);
         cancelLeaves.setLayout(cancelLeavesLayout);
@@ -427,14 +429,14 @@ public class Staff extends javax.swing.JFrame {
             .addGroup(cancelLeavesLayout.createSequentialGroup()
                 .addGap(124, 124, 124)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(301, Short.MAX_VALUE))
+                .addContainerGap(317, Short.MAX_VALUE))
         );
         cancelLeavesLayout.setVerticalGroup(
             cancelLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cancelLeavesLayout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         JFrame.addTab("Cancel Leave", new javax.swing.ImageIcon(getClass().getResource("/lynxux/delete-icon.png")), cancelLeaves); // NOI18N
@@ -460,7 +462,7 @@ public class Staff extends javax.swing.JFrame {
                 .addGroup(pendingLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 363, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 379, Short.MAX_VALUE)
                 .addGroup(pendingLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pendingCas, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pendingAnn, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -477,16 +479,16 @@ public class Staff extends javax.swing.JFrame {
                 .addGroup(pendingLeavesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(pendingAnn, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(264, Short.MAX_VALUE))
+                .addContainerGap(244, Short.MAX_VALUE))
         );
 
         JFrame.addTab("Pending", new javax.swing.ImageIcon(getClass().getResource("/lynxux/hp-pending-icon.png")), pendingLeaves); // NOI18N
 
         notifications.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTable3.setBackground(new java.awt.Color(250, 185, 170));
-        jTable3.setFont(new java.awt.Font("URW Gothic L", 1, 18)); // NOI18N
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        notificationsTable.setBackground(new java.awt.Color(250, 185, 170));
+        notificationsTable.setFont(new java.awt.Font("URW Gothic L", 1, 18)); // NOI18N
+        notificationsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -509,16 +511,16 @@ public class Staff extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable3.setEnabled(false);
-        jTable3.addMouseListener(new java.awt.event.MouseAdapter() {
+        notificationsTable.setEnabled(false);
+        notificationsTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jTable3MouseReleased(evt);
+                notificationsTableMouseReleased(evt);
             }
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable3MouseClicked(evt);
+                notificationsTableMouseClicked(evt);
             }
         });
-        jScrollPane4.setViewportView(jTable3);
+        jScrollPane4.setViewportView(notificationsTable);
 
         javax.swing.GroupLayout notificationsLayout = new javax.swing.GroupLayout(notifications);
         notifications.setLayout(notificationsLayout);
@@ -527,14 +529,14 @@ public class Staff extends javax.swing.JFrame {
             .addGroup(notificationsLayout.createSequentialGroup()
                 .addGap(122, 122, 122)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(303, Short.MAX_VALUE))
+                .addContainerGap(319, Short.MAX_VALUE))
         );
         notificationsLayout.setVerticalGroup(
             notificationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(notificationsLayout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
 
         JFrame.addTab("Notifications", new javax.swing.ImageIcon(getClass().getResource("/lynxux/Apps-Notifications-icon.png")), notifications); // NOI18N
@@ -558,10 +560,10 @@ public class Staff extends javax.swing.JFrame {
             availabilityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(availabilityLayout.createSequentialGroup()
                 .addGap(109, 109, 109)
-                .addGroup(availabilityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(availabilityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 391, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 407, Short.MAX_VALUE)
                 .addGroup(availabilityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(casLeaves, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
                     .addComponent(annLeaves, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -578,7 +580,7 @@ public class Staff extends javax.swing.JFrame {
                 .addGroup(availabilityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(annLeaves, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(283, Short.MAX_VALUE))
+                .addContainerGap(263, Short.MAX_VALUE))
         );
 
         JFrame.addTab("Availability", new javax.swing.ImageIcon(getClass().getResource("/lynxux/Actions-go-next-icon.png")), availability); // NOI18N
@@ -622,10 +624,13 @@ public class Staff extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(updateReqTable);
 
+        Datereq.setFont(new java.awt.Font("URW Gothic L", 1, 15)); // NOI18N
         Datereq.setText("Date");
 
+        Typereq.setFont(new java.awt.Font("URW Gothic L", 1, 15)); // NOI18N
         Typereq.setText("Type");
 
+        Reasonreq.setFont(new java.awt.Font("URW Gothic L", 1, 15)); // NOI18N
         Reasonreq.setText("Reason");
 
         dateload.setEditable(false);
@@ -635,6 +640,10 @@ public class Staff extends javax.swing.JFrame {
             }
         });
 
+        typeload.setEditable(false);
+
+        jButton1.setFont(new java.awt.Font("URW Gothic L", 1, 15)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lynxux/Apps-system-software-update-icon (1).png"))); // NOI18N
         jButton1.setText("Update");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -647,25 +656,25 @@ public class Staff extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(59, 59, 59)
+                .addGap(60, 60, 60)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
+                        .addGap(44, 44, 44)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Datereq)
                             .addComponent(Typereq)
                             .addComponent(Reasonreq))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(dateload, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                             .addComponent(typeload)
                             .addComponent(reasonload))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(75, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(197, Short.MAX_VALUE))))
+                        .addGap(75, 75, 75)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -689,7 +698,7 @@ public class Staff extends javax.swing.JFrame {
                             .addComponent(reasonload, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(124, Short.MAX_VALUE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         JFrame.addTab("Update Request", new javax.swing.ImageIcon(getClass().getResource("/lynxux/edit-validated-icon.png")), jPanel1); // NOI18N
@@ -703,12 +712,14 @@ public class Staff extends javax.swing.JFrame {
             }
         });
 
-        genRep.setText("Generate Report");
+        genRep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lynxux/SEO-icon.png"))); // NOI18N
         genRep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 genRepActionPerformed(evt);
             }
         });
+
+        repPara.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Accepted", "Rejected" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -721,21 +732,26 @@ public class Staff extends javax.swing.JFrame {
                         .addComponent(loggedInAs, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(63, 63, 63)
-                        .addComponent(JFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 885, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(JFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 905, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 15, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(genRep, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(fromEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(repPara, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 18, Short.MAX_VALUE)
+                                .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(71, 71, 71))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fromEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(repPara, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(genRep, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -749,14 +765,14 @@ public class Staff extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(JFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
+                        .addGap(74, 74, 74)
                         .addComponent(fromEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel12)
                         .addGap(62, 62, 62)
                         .addComponent(repPara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(genRep)))
+                        .addGap(18, 18, 18)
+                        .addComponent(genRep, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
@@ -782,49 +798,59 @@ public class Staff extends javax.swing.JFrame {
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
         // TODO add your handling code here:
-        conn = MySqlConnect.ConnectDB();
-        String sql = "Insert into RequestedLeaves (EmpId,Date,Type,Reason)"+"values(?,?,?,?)";
-        String sql2 = "Insert into DefaultLeaves(EmpId,Date,Type) values(?,?,?)";
-        String sql3 = "Insert into AdditionalLeaves(EmpId,Date,Type,Reason) values(?,?,?,?)";
-        try{
-            pst = conn.prepareStatement(sql);
-            pst.setString(1,Login.loggedInUser);
-            pst.setString(2,((JTextField)jDateText.getDateEditor().getUiComponent()).getText());
-            pst.setString(3,type);
-            pst.setString(4,reason.getText());
-            pst.execute();
-            if(reason.getText().equals("")){
-                pst = conn.prepareStatement(sql2);
+        String dateUI = ((JTextField)jDateText.getDateEditor().getUiComponent()).getText();
+        String month = dateUI.substring(5,7);
+        int monthUI = Integer.parseInt(month);
+        Calendar cal = Calendar.getInstance();
+        int curmonth = cal.get(Calendar.MONTH) + 1;
+        if(monthUI>=curmonth){
+            conn = MySqlConnect.ConnectDB();
+            String sql = "Insert into RequestedLeaves (EmpId,Date,Type,Reason)"+"values(?,?,?,?)";
+            String sql2 = "Insert into DefaultLeaves(EmpId,Date,Type) values(?,?,?)";
+            String sql3 = "Insert into AdditionalLeaves(EmpId,Date,Type,Reason) values(?,?,?,?)";
+            try{
+                pst = conn.prepareStatement(sql);
                 pst.setString(1,Login.loggedInUser);
                 pst.setString(2,((JTextField)jDateText.getDateEditor().getUiComponent()).getText());
                 pst.setString(3,type);
+                pst.setString(4,reason.getText());
+                pst.execute();
+                if(reason.getText().equals("")){
+                    pst = conn.prepareStatement(sql2);
+                    pst.setString(1,Login.loggedInUser);
+                    pst.setString(2,((JTextField)jDateText.getDateEditor().getUiComponent()).getText());
+                    pst.setString(3,type);
 
-                pst.execute();
+                    pst.execute();
+                }
+                else{
+                    pst = conn.prepareStatement(sql3);
+                    pst.setString(1,Login.loggedInUser);
+                    pst.setString(2,((JTextField)jDateText.getDateEditor().getUiComponent()).getText());
+                    pst.setString(3,type);
+                    pst.setString(4, reason.getText());
+                    pst.execute();
+                }
+
+
+                JOptionPane.showMessageDialog(null, "Your submission is successfull");
+                super.dispose();
+                Staff w = new Staff();
+                w.setVisible(true);
             }
-            else{
-                pst = conn.prepareStatement(sql3);
-                pst.setString(1,Login.loggedInUser);
-                pst.setString(2,((JTextField)jDateText.getDateEditor().getUiComponent()).getText());
-                pst.setString(3,type);
-                pst.setString(4, reason.getText());
-                pst.execute();
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
             }
-            
-            
-            JOptionPane.showMessageDialog(null, "Your submission is successfull");
-            super.dispose();
-            Staff w = new Staff();
-            w.setVisible(true);
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
+        else{
+            JOptionPane.showMessageDialog(null, "Invalid Month");
         }
     }//GEN-LAST:event_submitActionPerformed
     
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+    private void cancelLeaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelLeaveMouseClicked
         // TODO add your handling code here:
         
-    }//GEN-LAST:event_jTable1MouseClicked
+    }//GEN-LAST:event_cancelLeaveMouseClicked
 
     private void radiocasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radiocasMouseClicked
         // TODO add your handling code here:
@@ -836,13 +862,13 @@ public class Staff extends javax.swing.JFrame {
         limitAnn();
     }//GEN-LAST:event_radioannMouseClicked
 
-    private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
+    private void cancelLeaveMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelLeaveMouseReleased
         // TODO add your handling code here:
         int result = JOptionPane.showConfirmDialog(null,"Do you want to cancel you request","Confirm",JOptionPane.YES_NO_OPTION);
         if(result == JOptionPane.YES_OPTION){
-            int row = jTable1.getSelectedRow();
+            int row = cancelLeave.getSelectedRow();
             
-            String dateX = jTable1.getModel().getValueAt(row,0).toString();
+            String dateX = cancelLeave.getModel().getValueAt(row,0).toString();
             
             try{
                 conn = MySqlConnect.ConnectDB();
@@ -865,24 +891,24 @@ public class Staff extends javax.swing.JFrame {
             
         }
         
-    }//GEN-LAST:event_jTable1MouseReleased
+    }//GEN-LAST:event_cancelLeaveMouseReleased
 
     private void fromEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromEmployeeActionPerformed
         // TODO add your handling code here:
         String button = "fromEmployee";
-          Ireport_staff rp=new Ireport_staff("Select * from DefaultLeaves Leaves",button);
+        IreportUni rp=new IreportUni("Select * from RequestedLeaves where EmpId=?",button);
 //        viewer.setVisible(true);
-     //   Ireport_staff ir = new Ireport_staff();
+     //   IreportUni ir = new IreportUni();
        // Staff st = new Staff();
     }//GEN-LAST:event_fromEmployeeActionPerformed
 
-    private void jTable3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseReleased
+    private void notificationsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_notificationsTableMouseReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTable3MouseReleased
+    }//GEN-LAST:event_notificationsTableMouseReleased
 
-    private void jTable3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseClicked
+    private void notificationsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_notificationsTableMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTable3MouseClicked
+    }//GEN-LAST:event_notificationsTableMouseClicked
 
     private void radiocasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_radiocasStateChanged
         // TODO add your handling code here:
@@ -896,7 +922,7 @@ public class Staff extends javax.swing.JFrame {
 
     private void genRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genRepActionPerformed
         // TODO add your handling code here:
-        String para = repPara.getText();
+        String para = repPara.getSelectedItem().toString();
         Ireport rp2 = new Ireport(para);
     }//GEN-LAST:event_genRepActionPerformed
 
@@ -947,7 +973,7 @@ public class Staff extends javax.swing.JFrame {
             }
         
     }//GEN-LAST:event_jButton1ActionPerformed
-    public void addToTable(){
+    public void cancelleave(){
         conn = MySqlConnect.ConnectDB();
         String sql = "Select * from RequestedLeaves where EmpId=?";
         String date;
@@ -964,7 +990,7 @@ public class Staff extends javax.swing.JFrame {
                 type = rst.getString("Type");
                 reason = rst.getString("Reason");
                 
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                DefaultTableModel model = (DefaultTableModel) cancelLeave.getModel();
                 model.addRow(new Object[]{date,type,reason});
                 
             }
@@ -973,7 +999,7 @@ public class Staff extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,e);
         }
     }
-    public void addToTable2(){
+    public void notifications(){
         conn = MySqlConnect.ConnectDB();
         String sql = "Select Date,Status,Type from DefaultLeaves where EmpId=? UNION Select Date,Status,Type from AdditionalLeaves where EmpId=?";
         String date;
@@ -990,7 +1016,7 @@ public class Staff extends javax.swing.JFrame {
                 date = rst.getString("Date");
                 status = rst.getString("Status");
                 type = rst.getString("Type");
-                DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+                DefaultTableModel model = (DefaultTableModel) notificationsTable.getModel();
                 model.addRow(new Object[]{date,status,type});
                 
             }
@@ -999,7 +1025,7 @@ public class Staff extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,e);
         }
     }
-    public void addToTable3(){
+    public void updateleaves(){
         conn = MySqlConnect.ConnectDB();
         String sql = "Select * from RequestedLeaves where EmpId=? and Reason !=''";
         String date;
@@ -1025,33 +1051,7 @@ public class Staff extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,e);
         }
     }
-    public String[] loadForCombo2(){
-        String [] emps = null;
-        Stack st = new Stack();
-        conn = MySqlConnect.ConnectDB();
-        String sql2 = "Select EmpId from Employees";
-        try{
-            pst = conn.prepareStatement(sql2);
-            rst = pst.executeQuery();
-            rst.next();
-            int a = 0;
-            while(rst.next()){
-                st.push(rst.getString("EmpId"));
-            }
-            int size = st.size();
-            JOptionPane.showMessageDialog(null, st.size());
-            emps = new String[size];
-            int x = 0;
-            while(st.empty()){
-                emps[x] = (String)st.pop();
-                x++;
-            }
-        }
-        catch(SQLException | HeadlessException e){
-            JOptionPane.showMessageDialog(null, e);
-        }
-        return emps;
-    }
+    
     /**
      * @param args the command line arguments
      */
@@ -1098,6 +1098,7 @@ public class Staff extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.JTable cancelLeave;
     private javax.swing.JPanel cancelLeaves;
     private javax.swing.JLabel casLeaves;
     private javax.swing.JTextField dateload;
@@ -1119,11 +1120,10 @@ public class Staff extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable3;
     private javax.swing.JLabel loggedInAs;
     private javax.swing.JButton logout;
     private javax.swing.JPanel notifications;
+    private javax.swing.JTable notificationsTable;
     private javax.swing.JLabel pendingAnn;
     private javax.swing.JLabel pendingCas;
     private javax.swing.JPanel pendingLeaves;
@@ -1131,7 +1131,7 @@ public class Staff extends javax.swing.JFrame {
     private javax.swing.JRadioButton radiocas;
     private javax.swing.JTextArea reason;
     private javax.swing.JTextField reasonload;
-    private javax.swing.JTextField repPara;
+    private javax.swing.JComboBox repPara;
     private javax.swing.JPanel requestLeaves;
     private javax.swing.JButton submit;
     private javax.swing.JTextField typeload;

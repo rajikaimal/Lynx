@@ -141,7 +141,6 @@ public class Login extends javax.swing.JFrame {
             rst.next();
             level = rst.getString("Level");
             name = rst.getString("Name");
-            JOptionPane.showMessageDialog(rootPane, level);
             if(level.equals("Admin")){ 
                 JOptionPane.showMessageDialog(null,"Welcome Admin " + name);
                 Admin w = new Admin();
